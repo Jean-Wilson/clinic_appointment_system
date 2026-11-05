@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Clinic Appointment System</title><link rel="stylesheet" href="style.css">
+</head>
+<body>
+<aside class="sidebar">
+  <div class="brand">✚ CarePoint <small>Clinic Management</small></div>
+  <nav>
+    <button class="nav active" data-view="dashboard">▦ Dashboard</button>
+    <button class="nav" data-view="appointments">▣ Appointments</button>
+    <button class="nav" data-view="patients">♙ Patients</button>
+    <button class="nav" data-view="doctors">⚕ Doctors</button>
+  </nav>
+  <div class="side-note">Clinic Appointment System<br><small>Scheduling made simple</small></div>
+</aside>
+<main>
+<header><div><span class="eyebrow">CLINIC WORKSPACE</span><h1 id="pageTitle">Dashboard</h1></div><div class="today" id="today"></div></header>
+<div id="message" role="status"></div>
+<section id="dashboard" class="view">
+  <div class="cards">
+    <article class="stat"><span>Total patients</span><strong id="patientCount">—</strong><small>Registered patients</small></article>
+    <article class="stat"><span>Doctors</span><strong id="doctorCount">—</strong><small>Available care providers</small></article>
+    <article class="stat"><span>Appointments</span><strong id="appointmentCount">—</strong><small>All appointments</small></article>
+    <article class="stat"><span>Today</span><strong id="todayCount">—</strong><small>Appointments scheduled today</small></article>
+  </div>
+  <div class="panel"><div class="panel-head"><div><h2>Upcoming appointments</h2><p>Latest scheduled visits</p></div><button class="primary" onclick="showView('appointments')">Manage appointments</button></div>
+  <div class="table-wrap"><table><thead><tr><th>Patient</th><th>Doctor</th><th>Date</th><th>Time</th><th>Status</th></tr></thead><tbody id="upcomingRows"></tbody></table></div></div>
+</section>
+<section id="appointments" class="view hidden">
+  <div class="panel">
+    <div class="panel-head"><div><h2>Book an appointment</h2><p>Select a patient, doctor and visit time.</p></div></div>
+    <form id="appointmentForm" class="form-grid">
+      <label>Patient<select id="appointmentPatient" required></select></label>
+      <label>Doctor<select id="appointmentDoctor" required></select></label>
+      <label>Date<input id="appointmentDate" type="date" required></label>
+      <label>Time<input id="appointmentTime" type="time" required></label>
+      <label class="wide">Reason for visit<input id="appointmentReason" placeholder="e.g. General check-up"></label>
+      <div class="wide"><button class="primary">Book appointment</button></div>
+    </form>
+  </div>
+  <div class="panel hidden" id="editAppointmentPanel">
+    <div class="panel-head"><div><h2>Edit appointment</h2><p>Change the booking details and save your updates.</p></div><button type="button" class="small-btn" id="cancelEdit">Cancel</button></div>
+    <form id="editAppointmentForm" class="form-grid">
+      <input id="editAppointmentId" type="hidden">
+      <label>Patient<select id="editAppointmentPatient" required></select></label>
+      <label>Doctor<select id="editAppointmentDoctor" required></select></label>
+      <label>Date<input id="editAppointmentDate" type="date" required></label>
+      <label>Time<input id="editAppointmentTime" type="time" required></label>
+      <label class="wide">Reason for visit<input id="editAppointmentReason" placeholder="Reason for visit"></label>
+      <label>Status<select id="editAppointmentStatus"><option>Scheduled</option><option>Completed</option><option>Cancelled</option><option>No-show</option></select></label>
+      <div class="wide"><button class="primary">Save appointment changes</button></div>
+    </form>
+  </div>
+  <div class="panel"><div class="panel-head"><div><h2>Appointment list</h2><p>Edit booking details, update status or remove a booking.</p></div></div>
+  <div class="table-wrap"><table><thead><tr><th>Patient</th><th>Doctor</th><th>Date</th><th>Time</th><th>Reason</th><th>Status</th><th>Actions</th></tr></thead><tbody id="appointmentRows"></tbody></table></div></div>
+</section>
+<section id="patients" class="view hidden">
+  <div class="panel"><div class="panel-head"><div><h2>Register a patient</h2><p>Add patient contact information.</p></div></div>
+  <form id="patientForm" class="form-grid">
+    <label>Full name<input id="patientName" required></label><label>Phone<input id="patientPhone"></label>
+    <label>Email<input id="patientEmail" type="email"></label><label>Date of birth<input id="patientDob" type="date"></label>
+    <label>Gender<select id="patientGender"><option value="">Choose</option><option>Female</option><option>Male</option><option>Other</option></select></label>
+    <div class="wide"><button class="primary">Save patient</button></div>
+  </form></div>
+  <div class="panel"><h2>Patient directory</h2><div class="table-wrap"><table><thead><tr><th>Name</th><th>Phone</th><th>Email</th><th>Date of birth</th><th>Gender</th></tr></thead><tbody id="patientRows"></tbody></table></div></div>
+</section>
+<section id="doctors" class="view hidden">
+  <div class="panel"><div class="panel-head"><div><h2>Add a doctor</h2><p>Maintain the clinic care team.</p></div></div>
+  <form id="doctorForm" class="form-grid"><label>Full name<input id="doctorName" required></label><label>Specialty<input id="doctorSpecialty" placeholder="e.g. Pediatrics"></label><label>Phone<input id="doctorPhone"></label><div class="wide"><button class="primary">Add doctor</button></div></form></div>
+  <div class="panel"><h2>Doctor directory</h2><div class="table-wrap"><table><thead><tr><th>Name</th><th>Specialty</th><th>Phone</th></tr></thead><tbody id="doctorRows"></tbody></table></div></div>
+</section>
+<footer>CarePoint Clinic · Appointment management demo</footer>
+</main><script src="app.js"></script>
+</body></html>

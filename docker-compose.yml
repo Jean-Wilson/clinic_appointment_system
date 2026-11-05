@@ -1,0 +1,45 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: clinic_db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: clinic_appointments
+      MYSQL_USER: clinic_user
+      MYSQL_PASSWORD: clinic_password
+    volumes:
+      - clinic_db_data:/var/lib/mysql
+      - ./backend/database/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-prootpassword"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  backend:
+    build: ./backend
+    image: ${DOCKERHUB_USERNAME:-local}/clinic_appointment_system-backend:latest
+    container_name: clinic_backend
+    restart: unless-stopped
+    environment:
+      DB_HOST: db
+      DB_NAME: clinic_appointments
+      DB_USER: clinic_user
+      DB_PASSWORD: clinic_password
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build: ./frontend
+    image: ${DOCKERHUB_USERNAME:-local}/clinic_appointment_system-frontend:latest
+    container_name: clinic_frontend
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+
+volumes:
+  clinic_db_data:
